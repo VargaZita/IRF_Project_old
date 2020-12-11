@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Arak">
+          <Key>
+            <PropertyRef Name="ArID" />
+          </Key>
+          <Property Name="ArID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TermekFK" Type="int" Nullable="false" />
+          <Property Name="BoltFK" Type="int" Nullable="false" />
+          <Property Name="Ar" Type="int" />
+        </EntityType>
+        <EntityType Name="Boltok">
+          <Key>
+            <PropertyRef Name="BoltID" />
+          </Key>
+          <Property Name="BoltID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nev" Type="nvarchar(max)" />
+          <Property Name="URL" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Ertekelesek">
+          <Key>
+            <PropertyRef Name="ErtekelesID" />
+          </Key>
+          <Property Name="ErtekelesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TermekFK" Type="int" Nullable="false" />
+          <Property Name="Csillag" Type="int" />
+        </EntityType>
+        <EntityType Name="Gyartok">
+          <Key>
+            <PropertyRef Name="GyartoID" />
+          </Key>
+          <Property Name="GyartoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gyarto" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Termekek">
+          <Key>
+            <PropertyRef Name="TermekID" />
+          </Key>
+          <Property Name="TermekID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GyartoFK" Type="int" Nullable="false" />
+          <Property Name="Nev" Type="nvarchar" MaxLength="100" />
+          <Property Name="DualSIM" Type="bit" />
+          <Property Name="Oprendszer" Type="nvarchar" MaxLength="100" />
+          <Property Name="Processzor tipusa" Type="nvarchar" MaxLength="100" />
+          <Property Name="RAM" Type="int" />
+          <Property Name="Belso memoria" Type="int" />
+          <Property Name="Bovitheto" Type="bit" />
+          <Property Name="Kijelzo merete" Type="int" />
+          <Property Name="Kijelzo tipusa" Type="nvarchar" MaxLength="100" />
+          <Property Name="Akku kapacitas" Type="int" />
+          <Property Name="Hosszusag" Type="int" />
+          <Property Name="Szelesseg" Type="int" />
+          <Property Name="Vastagsag" Type="int" />
+          <Property Name="Tomeg" Type="float" />
+        </EntityType>
+        <Association Name="FK_Arak_ToBoltok">
+          <End Role="Boltok" Type="Self.Boltok" Multiplicity="1" />
+          <End Role="Arak" Type="Self.Arak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boltok">
+              <PropertyRef Name="BoltID" />
+            </Principal>
+            <Dependent Role="Arak">
+              <PropertyRef Name="BoltFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arak_ToTermekek">
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="1" />
+          <End Role="Arak" Type="Self.Arak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termekek">
+              <PropertyRef Name="TermekID" />
+            </Principal>
+            <Dependent Role="Arak">
+              <PropertyRef Name="TermekFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ertekelesek_ToTermekek">
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="1" />
+          <End Role="Ertekelesek" Type="Self.Ertekelesek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termekek">
+              <PropertyRef Name="TermekID" />
+            </Principal>
+            <Dependent Role="Ertekelesek">
+              <PropertyRef Name="TermekFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termekek_ToGyartok">
+          <End Role="Gyartok" Type="Self.Gyartok" Multiplicity="1" />
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gyartok">
+              <PropertyRef Name="GyartoID" />
+            </Principal>
+            <Dependent Role="Termekek">
+              <PropertyRef Name="GyartoFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="Arak" EntityType="Self.Arak" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boltok" EntityType="Self.Boltok" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ertekelesek" EntityType="Self.Ertekelesek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gyartok" EntityType="Self.Gyartok" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termekek" EntityType="Self.Termekek" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Arak_ToBoltok" Association="Self.FK_Arak_ToBoltok">
+            <End Role="Boltok" EntitySet="Boltok" />
+            <End Role="Arak" EntitySet="Arak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arak_ToTermekek" Association="Self.FK_Arak_ToTermekek">
+            <End Role="Termekek" EntitySet="Termekek" />
+            <End Role="Arak" EntitySet="Arak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ertekelesek_ToTermekek" Association="Self.FK_Ertekelesek_ToTermekek">
+            <End Role="Termekek" EntitySet="Termekek" />
+            <End Role="Ertekelesek" EntitySet="Ertekelesek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termekek_ToGyartok" Association="Self.FK_Termekek_ToGyartok">
+            <End Role="Gyartok" EntitySet="Gyartok" />
+            <End Role="Termekek" EntitySet="Termekek" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Arak">
+          <Key>
+            <PropertyRef Name="ArID" />
+          </Key>
+          <Property Name="ArID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TermekFK" Type="Int32" Nullable="false" />
+          <Property Name="BoltFK" Type="Int32" Nullable="false" />
+          <Property Name="Ar" Type="Int32" />
+          <NavigationProperty Name="Boltok" Relationship="Self.FK_Arak_ToBoltok" FromRole="Arak" ToRole="Boltok" />
+          <NavigationProperty Name="Termekek" Relationship="Self.FK_Arak_ToTermekek" FromRole="Arak" ToRole="Termekek" />
+        </EntityType>
+        <EntityType Name="Boltok">
+          <Key>
+            <PropertyRef Name="BoltID" />
+          </Key>
+          <Property Name="BoltID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nev" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Arak" Relationship="Self.FK_Arak_ToBoltok" FromRole="Boltok" ToRole="Arak" />
+        </EntityType>
+        <EntityType Name="Ertekelesek">
+          <Key>
+            <PropertyRef Name="ErtekelesID" />
+          </Key>
+          <Property Name="ErtekelesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TermekFK" Type="Int32" Nullable="false" />
+          <Property Name="Csillag" Type="Int32" />
+          <NavigationProperty Name="Termekek" Relationship="Self.FK_Ertekelesek_ToTermekek" FromRole="Ertekelesek" ToRole="Termekek" />
+        </EntityType>
+        <EntityType Name="Gyartok">
+          <Key>
+            <PropertyRef Name="GyartoID" />
+          </Key>
+          <Property Name="GyartoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gyarto" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Termekek" Relationship="Self.FK_Termekek_ToGyartok" FromRole="Gyartok" ToRole="Termekek" />
+        </EntityType>
+        <EntityType Name="Termekek">
+          <Key>
+            <PropertyRef Name="TermekID" />
+          </Key>
+          <Property Name="TermekID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GyartoFK" Type="Int32" Nullable="false" />
+          <Property Name="Nev" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DualSIM" Type="Boolean" />
+          <Property Name="Oprendszer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Processzor_tipusa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RAM" Type="Int32" />
+          <Property Name="Belso_memoria" Type="Int32" />
+          <Property Name="Bovitheto" Type="Boolean" />
+          <Property Name="Kijelzo_merete" Type="Int32" />
+          <Property Name="Kijelzo_tipusa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Akku_kapacitas" Type="Int32" />
+          <Property Name="Hosszusag" Type="Int32" />
+          <Property Name="Szelesseg" Type="Int32" />
+          <Property Name="Vastagsag" Type="Int32" />
+          <Property Name="Tomeg" Type="Double" />
+          <NavigationProperty Name="Arak" Relationship="Self.FK_Arak_ToTermekek" FromRole="Termekek" ToRole="Arak" />
+          <NavigationProperty Name="Ertekelesek" Relationship="Self.FK_Ertekelesek_ToTermekek" FromRole="Termekek" ToRole="Ertekelesek" />
+          <NavigationProperty Name="Gyartok" Relationship="Self.FK_Termekek_ToGyartok" FromRole="Termekek" ToRole="Gyartok" />
+        </EntityType>
+        <Association Name="FK_Arak_ToBoltok">
+          <End Role="Boltok" Type="Self.Boltok" Multiplicity="1" />
+          <End Role="Arak" Type="Self.Arak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boltok">
+              <PropertyRef Name="BoltID" />
+            </Principal>
+            <Dependent Role="Arak">
+              <PropertyRef Name="BoltFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arak_ToTermekek">
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="1" />
+          <End Role="Arak" Type="Self.Arak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termekek">
+              <PropertyRef Name="TermekID" />
+            </Principal>
+            <Dependent Role="Arak">
+              <PropertyRef Name="TermekFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ertekelesek_ToTermekek">
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="1" />
+          <End Role="Ertekelesek" Type="Self.Ertekelesek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termekek">
+              <PropertyRef Name="TermekID" />
+            </Principal>
+            <Dependent Role="Ertekelesek">
+              <PropertyRef Name="TermekFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Termekek_ToGyartok">
+          <End Role="Gyartok" Type="Self.Gyartok" Multiplicity="1" />
+          <End Role="Termekek" Type="Self.Termekek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gyartok">
+              <PropertyRef Name="GyartoID" />
+            </Principal>
+            <Dependent Role="Termekek">
+              <PropertyRef Name="GyartoFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Arak" EntityType="Self.Arak" />
+          <EntitySet Name="Boltok" EntityType="Self.Boltok" />
+          <EntitySet Name="Ertekelesek" EntityType="Self.Ertekelesek" />
+          <EntitySet Name="Gyartok" EntityType="Self.Gyartok" />
+          <EntitySet Name="Termekek" EntityType="Self.Termekek" />
+          <AssociationSet Name="FK_Arak_ToBoltok" Association="Self.FK_Arak_ToBoltok">
+            <End Role="Boltok" EntitySet="Boltok" />
+            <End Role="Arak" EntitySet="Arak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arak_ToTermekek" Association="Self.FK_Arak_ToTermekek">
+            <End Role="Termekek" EntitySet="Termekek" />
+            <End Role="Arak" EntitySet="Arak" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ertekelesek_ToTermekek" Association="Self.FK_Ertekelesek_ToTermekek">
+            <End Role="Termekek" EntitySet="Termekek" />
+            <End Role="Ertekelesek" EntitySet="Ertekelesek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Termekek_ToGyartok" Association="Self.FK_Termekek_ToGyartok">
+            <End Role="Gyartok" EntitySet="Gyartok" />
+            <End Role="Termekek" EntitySet="Termekek" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="Arak">
+            <EntityTypeMapping TypeName="Database1Model.Arak">
+              <MappingFragment StoreEntitySet="Arak">
+                <ScalarProperty Name="ArID" ColumnName="ArID" />
+                <ScalarProperty Name="TermekFK" ColumnName="TermekFK" />
+                <ScalarProperty Name="BoltFK" ColumnName="BoltFK" />
+                <ScalarProperty Name="Ar" ColumnName="Ar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Boltok">
+            <EntityTypeMapping TypeName="Database1Model.Boltok">
+              <MappingFragment StoreEntitySet="Boltok">
+                <ScalarProperty Name="BoltID" ColumnName="BoltID" />
+                <ScalarProperty Name="Nev" ColumnName="Nev" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ertekelesek">
+            <EntityTypeMapping TypeName="Database1Model.Ertekelesek">
+              <MappingFragment StoreEntitySet="Ertekelesek">
+                <ScalarProperty Name="ErtekelesID" ColumnName="ErtekelesID" />
+                <ScalarProperty Name="TermekFK" ColumnName="TermekFK" />
+                <ScalarProperty Name="Csillag" ColumnName="Csillag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gyartok">
+            <EntityTypeMapping TypeName="Database1Model.Gyartok">
+              <MappingFragment StoreEntitySet="Gyartok">
+                <ScalarProperty Name="GyartoID" ColumnName="GyartoID" />
+                <ScalarProperty Name="Gyarto" ColumnName="Gyarto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termekek">
+            <EntityTypeMapping TypeName="Database1Model.Termekek">
+              <MappingFragment StoreEntitySet="Termekek">
+                <ScalarProperty Name="TermekID" ColumnName="TermekID" />
+                <ScalarProperty Name="GyartoFK" ColumnName="GyartoFK" />
+                <ScalarProperty Name="Nev" ColumnName="Nev" />
+                <ScalarProperty Name="DualSIM" ColumnName="DualSIM" />
+                <ScalarProperty Name="Oprendszer" ColumnName="Oprendszer" />
+                <ScalarProperty Name="Processzor_tipusa" ColumnName="Processzor tipusa" />
+                <ScalarProperty Name="RAM" ColumnName="RAM" />
+                <ScalarProperty Name="Belso_memoria" ColumnName="Belso memoria" />
+                <ScalarProperty Name="Bovitheto" ColumnName="Bovitheto" />
+                <ScalarProperty Name="Kijelzo_merete" ColumnName="Kijelzo merete" />
+                <ScalarProperty Name="Kijelzo_tipusa" ColumnName="Kijelzo tipusa" />
+                <ScalarProperty Name="Akku_kapacitas" ColumnName="Akku kapacitas" />
+                <ScalarProperty Name="Hosszusag" ColumnName="Hosszusag" />
+                <ScalarProperty Name="Szelesseg" ColumnName="Szelesseg" />
+                <ScalarProperty Name="Vastagsag" ColumnName="Vastagsag" />
+                <ScalarProperty Name="Tomeg" ColumnName="Tomeg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
