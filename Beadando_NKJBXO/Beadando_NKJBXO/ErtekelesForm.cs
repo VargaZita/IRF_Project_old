@@ -10,13 +10,15 @@ using System.Windows.Forms;
 
 namespace Beadando_NKJBXO
 {
-    public partial class Form1 : Form
+    public partial class ErtekelesForm : Form
     {
-        public Form1()
+        public ErtekelesForm()
         {
             InitializeComponent();
-            ErtekelesForm e1 = new ErtekelesForm();
-            e1.Show();
+            ErtekelesClass ec = new ErtekelesClass();
+            this.Controls.Add(ec);
         }
+
+        
     }
 }
